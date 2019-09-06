@@ -100,8 +100,11 @@
             'November',
             'December'
         ];
+        
+        var current_month = 3;
 
         function filterBy(month) {
+            document.getElementById('slider').value = month.toString();
             var filters = ['==', 'month', months[month]];
             map.setFilter('rain', filters);
             console.log(months[month]);
@@ -133,14 +136,21 @@
                 });
                 console.log('layer added');
 
-                // Set filter to first month of the year
-                // 0 = January
-                filterBy(0);
+                // Set filter to current month
+                filterBy(current_month);
 
                 document.getElementById('slider').addEventListener('input', function(e) {
                     var month = parseInt(e.target.value, 10);
                     filterBy(month);
                 });
+                
+                setInterval(function() {
+                    current_month = current_month + 1;
+                    if (current_month > 11) {
+                        current_month = 0;
+                    }
+                    filterBy(current_month);
+                }, 1000);
             });
         });
     </script>
