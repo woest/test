@@ -112,13 +112,6 @@
             console.log('map loaded');
 
             d3.json('total.geojson').then(function(data) {
-                console.log('data loaded TEST');
-                console.log(data);
-            });
-
-            d3.json('total.geojson', function(err, data) {
-                if (err) throw err;
-
                 console.log('data loaded');
 
                 map.addSource('rain', {
