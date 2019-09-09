@@ -107,7 +107,8 @@
             document.getElementById('slider').value = month.toString();
             //var filters = ['==', 'month', months[month]];
             //map.setFilter('rain', filters);
-            map.setPaintProperty('rain', 'fill-extrusion-color', ['get', 'color_'.concat(months[current_month)]])
+            map.setPaintProperty('rain', 'fill-extrusion-color', ['get', 'color_'.concat(months[current_month)]]);
+            map.setPaintProperty('rain', 'fill-extrusion-height', ['get', 'cum_deficit_'.concat(months[current_month)]);
             console.log(months[month]);
             document.getElementById('month').textContent = months[month];
         }
