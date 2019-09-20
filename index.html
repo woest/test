@@ -137,11 +137,7 @@
                     'paint': {
                         'fill-extrusion-color': ['get', 'color'],
                         'fill-extrusion-opacity': 1.0,
-                        'fill-extrusion-height': [
-                            'interpolate', ['linear'], ['zoom'],
-                            3, 0,
-                            7.05, ['*', 100, ['get', 'cum_deficit']]
-                        ],
+                        'fill-extrusion-height': 0,
                         'fill-extrusion-base': 0
                     }
                 });
@@ -165,16 +161,23 @@
             if (eh){
                 document.getElementById('pizza').checked = false;
                 document.getElementById('penny').checked = true;
+                document.getElementById('map').className = 'pin-bottomright scale titled';
+                map
+                    .easeTo({pitch: 50})
+                    .setPaintProperty('rain', 'fill-extrusion-height', [
+                            'interpolate', ['linear'], ['zoom'],
+                            3, 0,
+                            7.05, ['*', 100, ['get', 'cum_deficit']]
+                        ]);
             } 
             else {
                 document.getElementById('pizza').checked = true;
                 document.getElementById('penny').checked = false;
+                document.getElementById('map').className = 'pin-bottomright scale';
+                map
+                    .easeTo({pitch: 0})
+                    .setPaintProperty('rain', 'fill-extrusion-height', 0);
             }
-            var state = !eh ? {pitch:0, klass:['']} : {pitch:50, klass:['tilted']}
-            document.querySelector('#map').className = 'pin-bottomright scale '+state.klass[0]
-            map
-                .easeTo({pitch: state.pitch})
-                //.setClasses(state.klass)
 
             map.fire('resize');
         }
