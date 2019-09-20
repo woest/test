@@ -130,8 +130,16 @@
                     'paint': {
                         'fill-extrusion-color': ['get', 'color'],
                         'fill-extrusion-opacity': 1.0,
-                        'fill-extrusion-height': ['get', 'cum_deficit'],
-                        'fill-extrusion-base': 400
+                        'fill-extrusion-height': [
+                            'interpolate', ['linear'], ['zoom'],
+                            0, 0,
+                            15.05, ['*', 100, ['get', 'cum_deficit']]
+                        ],
+                        'fill-extrusion-base': [
+                            'interpolate', ['linear'], ['zoom'],
+                            0, 0,
+                            15.05, 400
+                        ]
                     }
                 });
                 console.log('layer added');
