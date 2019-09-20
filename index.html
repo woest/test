@@ -6,6 +6,7 @@
 <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.0/mapbox-gl.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/5.11.0/d3.min.js' charset='utf-8'></script>
+<link href='https://www.mapbox.com/base/latest/base.css' rel='stylesheet' />
 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.0/mapbox-gl.css' rel='stylesheet' />
 <style>
     body {
@@ -74,6 +75,12 @@
                 <div>Magnitude (m)</div>
             </div>
         </div>
+        <div class='rounded-toggle fr col4'>
+            <input id='pizza' type='radio' name='rtoggle' value='pizza' checked='checked'>
+            <label for='pizza' class='col6 center' onclick='tilt(false)'>2D</label>
+            <input id='penny' type='radio' name='rtoggle' value='penny'>
+            <label for='penny' class='col6 center' onclick='tilt(true)'>3D</label>
+        </div>
     </div>
     <script>
         mapboxgl.accessToken = 'pk.eyJ1IjoiaGt2c3VwZXJzZWMiLCJhIjoiY2p0azZhdXZnMHN5dTQ0bjBta3BqMmdhaSJ9.84tun-jmHukg2mmI3dXb7g';
@@ -82,7 +89,7 @@
             style: "mapbox://styles/mapbox/light-v10",
             center: [5.3, 52.2],
             zoom: 7,
-            pitch: 40,
+            pitch: 0,
             antialias: true
         });
 
@@ -147,16 +154,30 @@
                     var month = parseInt(e.target.value, 10);
                     filterBy(month);
                 });
-                
-                //setInterval(function() {
-                //    current_month = current_month + 1;
-                //    if (current_month > 11) {
-                //        current_month = 0;
-                //    }
-                //    filterBy(current_month);
-                //}, 3000);
+
+                // Tilt to 2D
+                tilt(false)
             });
         });
+
+        // map tilt functionality
+        function tilt(eh){
+            if (eh){
+                document.getElementById('pizza').checked = false;
+                document.getElementById('penny').checked = true;
+            } 
+            else {
+                document.getElementById('pizza').checked = true;
+                document.getElementById('penny').checked = false;
+            }
+            var state = !eh ? {pitch:0, klass:['']} : {pitch:50, klass:['tilted']}
+            document.querySelector('#map').className = 'pin-bottomright scale '+state.klass[0]
+            map
+                .easeTo({pitch: state.pitch})
+                //.setClasses(state.klass)
+
+            //scale.fire('resize');
+        }
     </script>
 
 </body>
